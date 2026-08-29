@@ -14,6 +14,25 @@ int is_digits(char c)
         return (0);
     return(1);
 }
+
+int key_is_valid(char *key)
+{
+    int i;
+
+    if (key[0] == '\0')             /* rien du tout                         */
+        return (0);
+    if (key[0] == '0' && key[1] != '\0')
+        return (0);                 /* commence par 0 ET a une suite        */
+    i = 0;
+    while (key[i] != '\0')
+    {
+        if (!is_digit(key[i]))      /* un caractere qui n'est pas un chiffre */
+            return (0);
+        i++;
+    }
+    return (1);                     /* tout est bon                         */
+}
+
 void get_key(char *key, char *line)
 {
     int i;
@@ -59,3 +78,4 @@ void    get_value(char *line, char *value)
         j--;                        /* on recule sur les espaces de la fin  */
     value[j] = '\0';
 }
+
