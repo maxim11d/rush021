@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string.h                                           :+:      :+:    :+:   */
+/*   list.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arsaulni <arsaulni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arsaulni <arsaulni@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/29 20:15:28 by arsaulni          #+#    #+#             */
-/*   Updated: 2026/08/30 13:57:18 by arsaulni         ###   ########.fr       */
+/*   Created: 2026/08/29 20:07:42 by arsaulni          #+#    #+#             */
+/*   Updated: 2026/08/30 12:08:09 by arsaulni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRING_H
-# define STRING_H
+#ifndef LIST_H
+# define LIST_H
 
-int	ft_strlen(char *str);
-int	ft_strcmp(char *s1, char *s2);
-void	ft_putstr(char *str);
-char	*ft_strndup(char *src, int n);
+typedef struct t_list
+{
+	struct t_list	*previous;
+	struct t_list	*next;
+	char			*key;
+	char			*value;
+}	t_list;
+
+void	free_list(t_list *elem);
+t_list	*add_elem(t_list *elem, char *key, char *value);
 
 #endif

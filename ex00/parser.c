@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arsaulni <arsaulni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mharribe <mharribe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 11:09:14 by arsaulni          #+#    #+#             */
-/*   Updated: 2026/08/30 13:57:05 by arsaulni         ###   ########.fr       */
+/*   Updated: 2026/08/30 19:25:11 by mharribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 
 t_list	*add_elem(t_list *elem, char *key, char *value);
 char	*ft_strndup(char *src, int n);
+char	*del_space(char *str);
+int		ft_strlen(char *str);
 
-static char	*extract_key(char **str)
+char	*extract_key(char **str)
 {
 	char	*start;
 	char	*key;
@@ -28,6 +30,16 @@ static char	*extract_key(char **str)
 	if (*str == start)
 		return (0);
 	key = ft_strndup(start, *str - start);
+	if (!key)
+	{
+		free(key);
+		return (0);
+	}
+	if (*key == '0' && ft_strlen(key) > 1)
+	{
+		free(key);
+		return (0);
+	}
 	while (**str == ' ')
 		(*str)++;
 	return (key);
@@ -58,7 +70,7 @@ char	*extract_value(char **str, int *len)
 	return (ft_strndup(*str, end + 1));
 }
 
-static t_list	*parse_entry(char **str, t_list *head)
+t_list	*parse_entry(char **str, t_list *head)
 {
 	char	*key;
 	char	*val;
@@ -67,10 +79,7 @@ static t_list	*parse_entry(char **str, t_list *head)
 
 	key = extract_key(str);
 	if (!key || *((*str)++) != ':')
-	{
-		free(key);
 		return (0);
-	}
 	val = extract_value(str, &v_len);
 	if (!val)
 	{
@@ -91,8 +100,6 @@ t_list	*parse_dict(char *str, t_list *head)
 	while (str && *str)
 	{
 		p = str;
-		while (*p == ' ')
-			p++;
 		if (*p == '\n')
 		{
 			str = p + 1;
@@ -100,7 +107,10 @@ t_list	*parse_dict(char *str, t_list *head)
 		}
 		head = parse_entry(&str, head);
 		if (!head)
+		{
+			free(head);
 			return (0);
+		}
 	}
 	while (head && head->previous)
 		head = head->previous;

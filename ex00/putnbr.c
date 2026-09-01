@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   putnbr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdutruel <mdutruel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mharribe <mharribe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/29 20:18:02 by arsaulni          #+#    #+#             */
-/*   Updated: 2026/08/30 15:41:39 by mdutruel         ###   ########.fr       */
+/*   Updated: 2026/08/30 18:45:42 by mharribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "list.h"
+
+int	fonction_norminette(int first, t_list *dict);
 
 int	print_val(t_list *dict, char *key, int *first)
 {
@@ -129,8 +131,5 @@ int	print_dict_nbr(t_list *dict, char *str)
 				|| !print_scale(dict, len, &first)))
 			return (0);
 	}
-	if (first && !print_val(dict, "0", &first))
-		return (0);
-	write(1, "\n", 1);
-	return (1);
+	return (fonction_norminette(first, dict));
 }
